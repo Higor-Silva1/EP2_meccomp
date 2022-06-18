@@ -1,3 +1,5 @@
+import numpy as np
+
 class bar:
     def __init__(self, E=0, A=0, L=0, pho=0, I = 0, node1=0, node2=0,theta=0):
         self.E = E          #bar's elastic module
@@ -7,7 +9,7 @@ class bar:
         self.I = I          #Inertia
         self.node1 = node1  #first bar's node
         self.node2 = node2
-        self.theta = theta  #bar's angle to the horizontal
+        self.theta = theta*np.pi/180  #bar's angle to the horizontal
 
     @classmethod
 
