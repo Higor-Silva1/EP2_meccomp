@@ -1,6 +1,2 @@
-from objects import bar
-
-obj = bar(2,1)
-
-obj.get_user_input()
-
+import numpy as np
+print(np.cos(np.pi))

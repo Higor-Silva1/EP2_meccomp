@@ -1,0 +1,1 @@
+Eu não terminei de programar ou desbugar treliças, mas talvez possa reaproveitar alguns códigos.

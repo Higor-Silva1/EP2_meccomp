@@ -22,7 +22,8 @@ def get_Ke_v(bar): #Matriz de rigidez da viga
 def get_Ke_p(bar): #Matriz de rigidez do pórtico
     return get_Ke_t(bar) + get_Ke_v(bar) 
 
-
+# A partir desse ponto eu não faço ideia se estou certo ou não. 
+# Contudo, o que é a vida sem um pouco de aventura.
 
 def get_Me_t(bar): #Matriz de massa da treliça
     Me_t = (bar.pho*bar.A*bar.L/6)*np.array[[2, 0, 0, 1, 0, 0], 
@@ -45,4 +46,12 @@ def get_Me_v(bar): #Matriz de massa da viga
 def get_Me_p(bar): #Matriz de massa do pórtico
     return get_Me_t(bar) + get_Me_v(bar)
 
-T =   [] #Matriz de rotação  
+def get_T(bar):
+    T = [[ np.cos(bar.theta), np.sin(bar.theta), 0, 0,                 0,                 0]
+         [-np.sin(bar.theta), np.cos(bar.theta), 0, 0,                 0,                 0]
+         [                 0,                 0, 1, 0,                 0,                 0]
+         [                 0,                 0, 0, np.cos(bar.theta), np.sin(bar.theta), 0]
+         [                 0,                 0, 0,-np.sin(bar.theta), np.cos(bar.theta), 0]
+         [                 0,                 0, 0, 0,                 0,                 1]]
+         
+    return T
