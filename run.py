@@ -8,15 +8,20 @@ A = 1
 L = 1
 
 Bar1 = Bar(E,A,L,0,0,1,2,0)
-Bar2 = Bar(E,A,L,0,0,2,3,135)
+Bar2 = Bar(2.98,A,L,0,0,2,3,135)
 Bar3 = Bar(E,A,L,0,0,3,4,0)
 Bar4 = Bar(E,A,L,0,0,2,4,90)
-Bar5 = Bar(E,A,L,0,0,2,5,45)
+Bar5 = Bar(2.98,A,L,0,0,2,5,45)
 Bar6 = Bar(E,A,L,0,0,4,5,0)
 
 Bars = [Bar1,Bar2,Bar3,Bar4,Bar5,Bar6]
 G = Global(2,5)
 
-print(G.size)
+#print(G.size)
 
+#print(Bar1.node1)
+
+#print(Bar2.theta)
+
+print("Matriz Global: \n")
 print(np.matrix.view(Global.get_Ke_global(Bars)))
