@@ -1,7 +1,9 @@
-from objects import Bar
+from Bar import Bar
+from Global import Global
+from porticos import matrices
 import numpy as np
 
-E = 4.22*10**5
+E = 4.22
 A = 1
 L = 1
 
@@ -12,4 +14,9 @@ Bar4 = Bar(E,A,L,0,0,2,4,90)
 Bar5 = Bar(E,A,L,0,0,2,5,45)
 Bar6 = Bar(E,A,L,0,0,4,5,0)
 
-#np.matrix.view(matrices.get_Ke_v(Bar1))
+Bars = [Bar1,Bar2,Bar3,Bar4,Bar5,Bar6]
+G = Global(2,5)
+
+print(G.size)
+
+print(np.matrix.view(Global.get_Ke_global(Bars)))

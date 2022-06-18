@@ -1,6 +1,6 @@
 import trelicas_static as ts
 import numpy as np
-from objects import Bar
+from Bar import Bar
 import copy
 
 print("Esses são os tipos de problemas disponíveis atualmente:")

@@ -1,5 +1,5 @@
 import numpy as np
-from objects import bar, Global
+from Bar import bar, Global
 
 #numpy.linalg.eig() para obter os autovelores e autovetores em análise modal
 #Lembrar que os autovalores serão w^2 e não w em si
