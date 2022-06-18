@@ -32,16 +32,43 @@ class Global:
         self.number_degrees_of_motion = number_degrees_of_motion
         self.number_of_nodes = number_of_nodes
         self.size = number_degrees_of_motion*number_of_nodes
-        self.K_e_global = np.zeros(self.size)
+        self.Ke_global = np.zeros(self.size)
+        self.Me_global = np.zeros(self.size)
     
     @classmethod
 
-    def creat_K_e_global(self,bars): #bars is a list of bar objects
-        zeros = np.zeros(self.size) #Preallocating
+    #Este eu faço pouca ideia mas tenho uma pequena lógica
+    def creat_Ke_global(self,bars): #bars is a list of bar objects
+        temp = np.zeros(self.size) #Preallocating
 
         for n in range(len(bars)):
             Ke_p = m.get_Ke_p(bars[n])
 
             for i in range(self.number_degrees_of_motion):
-                zeros[2*(bars[n].node1)-1+i,]
+                for j in range(self.number_degrees_of_motion):
+                    temp[2*(bars[n].node1)-1+i,2*(bars[n].node1)-1+j] = Ke_p[i,j]
+                    temp[2*(bars[n].node1)-1+i,2*(bars[n].node2)-1+j] = Ke_p[i,j+self.number_degrees_of_motion]
+                    temp[2*(bars[n].node2)-1+i,2*(bars[n].node1)-1+j] = Ke_p[i+self.number_degrees_of_motion,j]
+                    temp[2*(bars[n].node2)-1+i,2*(bars[n].node2)-1+j] = Ke_p[i+self.number_degrees_of_motion,j+self.number_degrees_of_motion]
+            
+            self.Ke_global += temp
+            temp = np.zeros(self.size) #Resetting
+
+    #Este eu simplesmente não faço ideia
+    def creat_Me_global(self,bars): #bars is a list of bar objects
+        temp = np.zeros(self.size) #Preallocating
+
+        for n in range(len(bars)):
+            Ke_p = m.get_Ke_p(bars[n])
+
+            for i in range(self.number_degrees_of_motion):
+                for j in range(self.number_degrees_of_motion):
+                    temp[2*(bars[n].node1)-1+i,2*(bars[n].node1)-1+j] = Ke_p[i,j]
+                    temp[2*(bars[n].node1)-1+i,2*(bars[n].node2)-1+j] = Ke_p[i,j+self.number_degrees_of_motion]
+                    temp[2*(bars[n].node2)-1+i,2*(bars[n].node1)-1+j] = Ke_p[i+self.number_degrees_of_motion,j]
+                    temp[2*(bars[n].node2)-1+i,2*(bars[n].node2)-1+j] = Ke_p[i+self.number_degrees_of_motion,j+self.number_degrees_of_motion]
+            
+            self.Me_global += temp
+            temp = np.zeros(self.size) #Resetting
+                    
             
