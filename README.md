@@ -1,2 +1,2 @@
 # EP2_meccomp
-Exercicio progama da disciplina de mecanica computacional
+Segundo exercicio progama da disciplina de mecanica computacional
