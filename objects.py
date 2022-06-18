@@ -1,4 +1,5 @@
 import numpy as np
+from porticos import matrices as m
 
 class bar:
     def __init__(self, E=0, A=0, L=0, pho=0, I = 0, node1=0, node2=0,theta=0):
@@ -24,3 +25,23 @@ class bar:
         theta = float(input("Indique o ânglo da barra: "))
 
         return self(E, A, L, pho, node1, node2)
+
+class Global:
+    
+    def __init__(self,number_degrees_of_motion,number_of_nodes):
+        self.number_degrees_of_motion = number_degrees_of_motion
+        self.number_of_nodes = number_of_nodes
+        self.size = number_degrees_of_motion*number_of_nodes
+        self.K_e_global = np.zeros(self.size)
+    
+    @classmethod
+
+    def creat_K_e_global(self,bars): #bars is a list of bar objects
+        zeros = np.zeros(self.size) #Preallocating
+
+        for n in range(len(bars)):
+            Ke_p = m.get_Ke_p(bars[n])
+
+            for i in range(self.number_degrees_of_motion):
+                zeros[2*(bars[n].node1)-1+i,]
+            
