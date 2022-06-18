@@ -13,5 +13,5 @@ def analize(mode):
     mode = int(input()) #Mudar para validade input do EP1
 
     if mode == 1:
-
+        pass
 
