@@ -24,4 +24,4 @@ G = Global(2,5)
 #print(Bar2.theta)
 
 print("Matriz Global: \n")
-print(np.matrix.view(Global.get_Ke_global(Bars)))
+print(np.matrix.view(Global.get_Ke_global(Bars,2,5)))

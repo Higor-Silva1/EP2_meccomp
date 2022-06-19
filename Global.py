@@ -13,8 +13,8 @@ class Global:
     @classmethod
 
     #Este eu faço pouca ideia mas tenho uma pequena lógica
-    def get_Ke_global(self,Bars): #Bars is a list of Bar objects
-        temp = np.zeros([10,10]) #Preallocating
+    def get_Ke_global(self,Bars,degrees,nodes): #Bars is a list of Bar objects
+        temp = np.zeros([degrees*nodes,degrees*nodes]) #Preallocating
         Ke_global = np.copy(temp)
         print(np.matrix.view(Ke_global))
         print("antes \n")
@@ -24,15 +24,16 @@ class Global:
             #print("n=",n,"/n")
             #print(np.matrix.view(T))
             #print("/n")
+            #@ matriz multiply
             Ke_p = np.matmul(np.matmul(np.matrix.transpose(T),m.get_Ke_t(Bars[n])),T)
             #print(np.matrix.view(Ke_p))
             for i in range(2):
                 for j in range(2):
                     #print(np.matrix.view(temp))
-                    temp[2*(Bars[n].node1)-2+i,2*(Bars[n].node1)-2+j] = Ke_p[i,j]
-                    temp[2*(Bars[n].node1)-2+i,2*(Bars[n].node2)-2+j] = Ke_p[i,j+2]
-                    temp[2*(Bars[n].node2)-2+i,2*(Bars[n].node1)-2+j] = Ke_p[i+2,j]
-                    temp[2*(Bars[n].node2)-2+i,2*(Bars[n].node2)-2+j] = Ke_p[i+2,j+2]
+                    temp[2*(Bars[n].node1)-degrees+i,2*(Bars[n].node1)-degrees+j] = Ke_p[i,j]
+                    temp[2*(Bars[n].node1)-degrees+i,2*(Bars[n].node2)-degrees+j] = Ke_p[i,j+degrees]
+                    temp[2*(Bars[n].node2)-degrees+i,2*(Bars[n].node1)-degrees+j] = Ke_p[i+degrees,j]
+                    temp[2*(Bars[n].node2)-degrees+i,2*(Bars[n].node2)-degrees+j] = Ke_p[i+degrees,j+degrees]
             
             
             print(np.matrix.view(Ke_global))
@@ -50,6 +51,6 @@ class Global:
             print(np.matrix.view(Ke_global))
             print("\n")
 
-            temp = np.zeros([10,10]) #Resetting
+            temp = np.zeros([degrees*nodes,degrees*nodes]) #Resetting
             
         return Ke_global
