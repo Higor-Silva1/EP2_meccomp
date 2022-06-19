@@ -36,20 +36,20 @@ class Global:
                     temp[2*(Bars[n].node2)-degrees+i,2*(Bars[n].node2)-degrees+j] = Ke_p[i+degrees,j+degrees]
             
             
-            print(np.matrix.view(Ke_global))
-            print("depois \n")
+            #print(np.matrix.view(Ke_global))
+            #print("depois \n")
 
 
-            print("n=",n,"temp: \n")
-            print(np.matrix.view(temp))
-            print("\n")
+            #print("n=",n,"temp: \n")
+            #print(np.matrix.view(temp))
+            #print("\n")
 
             
             Ke_global += temp
             Ke_global[Ke_global**2<10**(-8)] = 0 #Erro de aproximação
-            print("n=",n,"Ke_act: \n")
-            print(np.matrix.view(Ke_global))
-            print("\n")
+            #print("n=",n,"Ke_act: \n")
+            #print(np.matrix.view(Ke_global))
+            #print("\n")
 
             temp = np.zeros([degrees*nodes,degrees*nodes]) #Resetting
             

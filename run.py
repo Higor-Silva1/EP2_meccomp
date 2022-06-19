@@ -25,3 +25,6 @@ G = Global(2,5)
 
 print("Matriz Global: \n")
 print(np.matrix.view(Global.get_Ke_global(Bars,2,5)))
+
+#Pedir ao usuário condições de contorno zero e subtatrair ou multiplicar por zero
+#nas posições equivalentes (tipo, se c_1 = 1, 0*[Me[1:end,1],Me[1,1:end]]??
