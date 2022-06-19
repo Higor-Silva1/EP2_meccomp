@@ -7,11 +7,11 @@ from porticos import matrices as m
 class Global:
     
     def __init__(self,Bars,number_degrees_of_motion = 0,number_of_nodes = 0):
-        self.Me_g = Global.get_Me_global(self,Bars,number_degrees_of_motion,number_of_nodes)
+        pass
         self.Ke_g = Global.get_Ke_global(self,Bars,number_degrees_of_motion,number_of_nodes)
+        self.Me_g = Global.get_Me_global(self,Bars,number_degrees_of_motion,number_of_nodes)
     
-    @classmethod
-
+    
     #Este eu faço pouca ideia mas tenho uma pequena lógica
     def get_Ke_global(self,Bars,number_degrees_of_motion,number_of_nodes): #Bars is a list of Bar objects
         temp = np.zeros([number_degrees_of_motion*number_of_nodes,number_degrees_of_motion*number_of_nodes]) #Preallocating
@@ -64,3 +64,10 @@ class Global:
         
         
         return Me_global
+
+
+    # def get_Ke_global_reduzida(self):
+    #     print("Quais são as restrições ao movimento presentes no sistema? \n")
+    #     print("Coloque 1 (restrito) e 0 (não restrito) separados por espaço, lembrando da ordem: u1 v1 phi1 u2 ...")
+    #     temp = input()
+    #     restrictions = temp.split()

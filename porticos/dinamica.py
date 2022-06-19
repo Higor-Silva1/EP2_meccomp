@@ -15,7 +15,10 @@ def analize(Global_Matrix): #Se preciso, testar se Global_Matrix is type global 
 
     #if mode == 0: por favor, insira um modo de análise (pedir input novamente)
 
+    #Adicionar simplificações nos modos possíveis
     if mode == 1:
+        print("Realizando Análise Modal sem Amortecimento \n \n")
+        #Pelo visto não é a matriz global que se utiliza, e sim a matriz reduzida aaaaa
         [auto_valores, auto_vetores] = np.linalg.eig(np.linalg.inv(Global_Matrix.Me_g)@Global_Matrix.Ke_g)
         modos_de_vibrar = auto_vetores
         omega = np.sqrt(auto_valores)
@@ -28,4 +31,14 @@ def analize(Global_Matrix): #Se preciso, testar se Global_Matrix is type global 
         print("Os modos de vibrar são: \n")
         for q in range(len(omega)):
             print("Modo",q+1,"=",np.matrix.view(modos_de_vibrar[q]),"\n")
+    
+    if mode == 2:
+        print("Realizando Análise Harmônica sem Amortecimento \n \n")
+        print("Escolha o tamnho do passo da frequência: \n")
+        h = float(input())
+        print("Escolha o a frequência final (assumindo incial == 0): \n")
+        w_f = float(input())
+
+        #for i in range((w_f))
+
 
