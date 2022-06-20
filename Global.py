@@ -6,14 +6,19 @@ from porticos import matrices as m
 
 class Global:
     
-    def __init__(self,Bars,number_degrees_of_motion = 0,number_of_nodes = 0):
-        pass
+    def __init__(self,Bars,number_degrees_of_motion = 0,number_of_nodes = 0,Contorno = 0, C=0, F=0):
+        #Mudei para colocar direto os C e o F para evitar o trablho de iniciar toda hora, o produto final
+        #talvez mantenha o set_C e o set_F
         self.Ke_g = Global.get_Ke_global(self,Bars,number_degrees_of_motion,number_of_nodes)
         self.Me_g = Global.get_Me_global(self,Bars,number_degrees_of_motion,number_of_nodes)
-        self.C = m.set_C()
+        self.Contorno = np.array(Contorno) #Por enquanto não fiz um set_Contorno
+        #self.C = m.set_C()
+        self.C = np.transpose(np.array(C))
         self.Ke_g_reduzida = Global.get_Ke_global_reduzida(self)
         self.Me_g_reduzida = Global.get_Me_global_reduzida(self)
-        self.F = m.set_F()
+        #self.F = m.set_F()
+        self.F = np.transpose(np.array(F))
+        self.F_reduzida = Global.get_F_reduzida(self)
     
     
     #Este eu faço pouca ideia mas tenho uma pequena lógica
@@ -75,7 +80,7 @@ class Global:
     def get_Ke_global_reduzida(self):
         Ke_global_reduzida = np.copy(self.Ke_g)
 
-        index_zeros = np.where(self.C==0)[0] #Find where are all the zeros in the contour conditions
+        index_zeros = np.where(self.Contorno==0)[0] #Find where are all the zeros in the contour conditions
 
         for i in index_zeros:
 
@@ -89,7 +94,7 @@ class Global:
     def get_Me_global_reduzida(self):
         Me_global_reduzida = np.copy(self.Me_g)
 
-        index_zeros = np.where(self.C==0)[0] #Find where are all the zeros in the contour conditions
+        index_zeros = np.where(self.Contorno==0)[0] #Find where are all the zeros in the contour conditions
 
         for i in index_zeros:
 
@@ -99,4 +104,14 @@ class Global:
             Me_global_reduzida[i,i] = 1
         
         return Me_global_reduzida
-        
+    
+    def get_F_reduzida(self):
+        F_reduzida = np.copy(self.F)
+
+        index_zeros = np.where(self.Contorno==0)[0] #Find where are all the zeros in the contour conditions
+
+        for i in index_zeros:
+            F_reduzida[i] = 0
+
+        print(np.matrix.view(F_reduzida))    
+        return F_reduzida

@@ -1,3 +1,4 @@
+from cmath import isclose
 from tkinter import Y
 import numpy as np
 from Bar import Bar
@@ -39,7 +40,7 @@ class analise():
         
         print("Qual a frequência dos esforços aplicados: \n")
         w = float(input())
-        Y = np.linalg.inv(self.Global_Matrix.Ke_g_reduzida-(w)**2*self.Global_Matrix.Me_g_reduzida)@(self.Global_Matrix.F+self.Global_Matrix.C)
+        Y = np.linalg.inv(self.Global_Matrix.Ke_g_reduzida-(w)**2*self.Global_Matrix.Me_g_reduzida)@(self.Global_Matrix.F_reduzida+self.Global_Matrix.C)
         Y = Y.transpose()
         print("Digite 1 para Y; 2 para as reações e 3 para análise na frequência")
         modo = int(input())
@@ -48,7 +49,8 @@ class analise():
             return Y
         
         if modo == 2:
-            reactions = (self.Global_Matrix.Ke_g - (w**2)*self.Global_Matrix.Me_g)@Y
+            reactions = (self.Global_Matrix.Ke_g - (w**2)*self.Global_Matrix.Me_g)@Y - self.Global_Matrix.F
+            reactions[np.isclose(reactions,0)] = 0
 
             return reactions
 
@@ -66,7 +68,7 @@ class analise():
                 # A matriz Ke_g é singular por definição
                 #Y[:,i] = np.linalg.inv(self.Global_Matrix.Ke_g-(w_f*i/(h-1))**2*self.Global_Matrix.Me_g)@(self.Global_Matrix.F+self.Global_Matrix.C) #(w_f/h)*i passo atual
 
-                Y[:,i] = np.linalg.inv(self.Global_Matrix.Ke_g_reduzida-(w_f*i/(h-1))**2*self.Global_Matrix.Me_g_reduzida)@(self.Global_Matrix.F+self.Global_Matrix.C) #(w_f/h)*i passo atual
+                Y[:,i] = np.linalg.inv(self.Global_Matrix.Ke_g_reduzida-(w_f*i/(h-1))**2*self.Global_Matrix.Me_g_reduzida)@(self.Global_Matrix.F_reduzida+self.Global_Matrix.C) #(w_f/h)*i passo atual
             
             #print("\n Y = ",np.matrix.view(Y))
 
@@ -111,4 +113,7 @@ class analise():
             print("Modo",q+1,"=",np.matrix.view(modos_de_vibrar[q]),"\n")
         return omega, modos_de_vibrar #Não se devo colocar pos o usuário talvez queira mais de uma análise
 
+    #Vou pular a análise harmônica com amortecimento por enquanto
 
+    def transiente(self):
+        pass
