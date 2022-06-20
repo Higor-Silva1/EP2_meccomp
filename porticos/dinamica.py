@@ -79,5 +79,36 @@ class analise():
                 print("Digite o número inteiro equivalente a posição no vetor Y ou 0 para sair \n")
                 cc_desejado = int(input())
             return Y
+        
+    def modal_amr(self):
+        print("Realizando Análise Modal sem Amortecimento... \n \n")
+
+        print("Indique o alpha: ")
+        alpha = float(input())
+
+        print("Indique o beta: ")
+        beta = float(input())
+
+        K_star = self.Global_Matrix.Ke_g_reduzida + np.complex(0,beta)*self.Global_Matrix.Ke_g_reduzida
+        M_star = self.Global_Matrix.Me_g_reduzida - np.complex(0,alpha)*self.Global_Matrix.Me_g_reduzida
+
+        #Pelo visto não é a matriz global que se utiliza, e sim a matriz reduzida aaaaa
+        [auto_valores, auto_vetores] = np.linalg.eig(np.linalg.inv(M_star)@K_star)
+        
+        #Não tenho certeza se auto_vetores = modos_de_vibrar rever aula
+        ########## Consertar modos_de_vibrar ########### 
+        modos_de_vibrar = auto_vetores
+        modos_de_vibrar[np.isclose(modos_de_vibrar,0)] = 0
+        omega = np.sqrt(auto_valores)
+        omega_hertz = omega/(2*np.pi)
+
+        print("As frequências de ressonância são: \n")
+        for i in range(len(omega)):
+            print("w",i+1,"=",omega[i],"\n")
+        
+        print("Os modos de vibrar são: \n")
+        for q in range(len(omega)):
+            print("Modo",q+1,"=",np.matrix.view(modos_de_vibrar[q]),"\n")
+        return omega, modos_de_vibrar #Não se devo colocar pos o usuário talvez queira mais de uma análise
 
 

@@ -43,4 +43,4 @@ G = Global([Bar1],2,2)
 
 resutltado = analise(G)
 
-modal = resutltado.harmonica()
+print(np.matrix.view(resutltado.modal_amr()[0]))
