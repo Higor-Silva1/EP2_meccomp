@@ -2,7 +2,7 @@ from Bar import Bar
 from Global import Global
 from porticos import matrices
 import numpy as np
-from porticos import dinamica as dm
+from porticos.dinamica import analise
 
 # E = 4.22
 # A = 1
@@ -41,4 +41,6 @@ Bar1 = Bar(E,A,L,pho,I,1,2,0)
 
 G = Global([Bar1],2,2)
 
-dm.analize(G)
+resutltado = analise(G)
+
+modal = resutltado.harmonica()

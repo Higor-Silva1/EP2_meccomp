@@ -93,7 +93,7 @@ def set_C():
         C.append(float(temp[i]))
         
     C = np.array(C)
-    return C
+    return C.transpose()
 
 def set_F():
     print("Qual o vetor de esforços distribuidos aplicadas ao sistema? \n")
@@ -105,7 +105,7 @@ def set_F():
         F.append(float(temp[i]))
         
     F = np.array(F)
-    return F
+    return F.transpose()
 
 def set_Cm():
     pass

@@ -2,25 +2,19 @@ from tkinter import Y
 import numpy as np
 from Bar import Bar
 from Global import Global
+import matplotlib.pyplot as plt
 
 #numpy.linalg.eig() para obter os autovelores e autovetores em análise modal
 #Lembrar que os autovalores serão w^2 e não w em si
 
 #Criar uma classe chamada analise para guardar os resultados?
-def analize(Global_Matrix): #Se preciso, testar se Global_Matrix is type global e avisar se não for
-    print("Qual o tipo de análise deve ser realizada?\n")
-    print("Digite 1 para Análise Modal sem Amortecimento\n")
-    print("Digite 2 para Análise Harmônica sem Amortecimento\n")
-    print("Digite 3 para Análise Modal com Amortecimento\n")
-    print("Digite 4 para Análise Harmônica com Amortecimento\n")
-    mode = int(input()) #Mudar para validade input do EP1 caso necessário
+class analise():
+    def __init__(self,Global_Matrix): #Se preciso, testar se Global_Matrix is type global e avisar se não for
+        self.Global_Matrix = Global_Matrix
 
-    #if mode == 0: por favor, insira um modo de análise (pedir input novamente)
-
-    K_estrela = np.linalg.inv(Global_Matrix.Me_g_reduzida)@Global_Matrix.Ke_g_reduzida #Definindo matriz que será usada ao longo dos modos 1 e 2
-    #Adicionar simplificações nos modos possíveis
-    if mode == 1:
-        print("Realizando Análise Modal sem Amortecimento \n \n")
+    def modal(self):
+        print("Realizando Análise Modal sem Amortecimento... \n \n")
+        K_estrela = np.linalg.inv(self.Global_Matrix.Me_g_reduzida)@self.Global_Matrix.Ke_g_reduzida
         #Pelo visto não é a matriz global que se utiliza, e sim a matriz reduzida aaaaa
         [auto_valores, auto_vetores] = np.linalg.eig(K_estrela)
         
@@ -40,18 +34,50 @@ def analize(Global_Matrix): #Se preciso, testar se Global_Matrix is type global 
             print("Modo",q+1,"=",np.matrix.view(modos_de_vibrar[q]),"\n")
         return omega, modos_de_vibrar #Não se devo colocar pos o usuário talvez queira mais de uma análise
 
-    if mode == 2:
-        print("Realizando Análise Harmônica sem Amortecimento \n \n")
-        print("Escolha em quantas partes iguais o w será dividido: \n")
-        h = int(input("h precisa ser maior que 1: "))
-        Y = np.zeros([len(K_estrela), h])
-        print("Escolha o a frequência final (assumindo incial == 0): \n")
-        w_f = float(input())
-
-        for i in range(h):
-            Y[:,i] = np.linalg.inv(K_estrela-(w_f/(h-1))**2*i*np.eye(len(K_estrela),len(K_estrela)))@(Global_Matrix.F+Global_Matrix.C) #(w_f/h)*i passo atual
+    def harmonica(self):
+        print("Realizando Análise Harmônica sem Amortecimento... \n \n")
         
-        print("\n Y = ",np.matrix.view(Y))
-        return Y
+        print("Qual a frequência dos esforços aplicados: \n")
+        w = float(input())
+        Y = np.linalg.inv(self.Global_Matrix.Ke_g_reduzida-(w)**2*self.Global_Matrix.Me_g_reduzida)@(self.Global_Matrix.F+self.Global_Matrix.C)
+        Y = Y.transpose()
+        print("Digite 1 para Y; 2 para as reações e 3 para análise na frequência")
+        modo = int(input())
+        
+        if modo == 1: 
+            return Y
+        
+        if modo == 2:
+            reactions = (self.Global_Matrix.Ke_g - (w**2)*self.Global_Matrix.Me_g)@Y
+
+            return reactions
+
+        if modo == 3:
+            print("Escolha em quantas partes iguais o w será dividido: \n")
+            h = int(input("h precisa ser maior que 1: "))
+            Y = np.zeros([len(self.Global_Matrix.Ke_g_reduzida), h])
+            print("Qual a frequência final (assumindo incial == 0): \n")
+            w_f = float(input())
+            
+            w_vec = np.arange(0,w_f,w_f/h)
+
+            for i in range(h):
+                
+                # A matriz Ke_g é singular por definição
+                #Y[:,i] = np.linalg.inv(self.Global_Matrix.Ke_g-(w_f*i/(h-1))**2*self.Global_Matrix.Me_g)@(self.Global_Matrix.F+self.Global_Matrix.C) #(w_f/h)*i passo atual
+
+                Y[:,i] = np.linalg.inv(self.Global_Matrix.Ke_g_reduzida-(w_f*i/(h-1))**2*self.Global_Matrix.Me_g_reduzida)@(self.Global_Matrix.F+self.Global_Matrix.C) #(w_f/h)*i passo atual
+            
+            #print("\n Y = ",np.matrix.view(Y))
+
+            print("Para qual condição de contorno deseja obter a resposta em frequência?: \n")
+            print("Digite o número inteiro equivalente a posição no vetor Y ou 0 para sair")
+            cc_desejado = int(input())
+            while cc_desejado != 0:
+                plt.plot(w_vec,np.abs(Y[cc_desejado-1,:]))
+                plt.show()
+                print("Digite o número inteiro equivalente a posição no vetor Y ou 0 para sair \n")
+                cc_desejado = int(input())
+            return Y
 
 
