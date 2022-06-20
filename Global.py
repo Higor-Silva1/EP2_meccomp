@@ -22,7 +22,7 @@ class Global:
         
         for n in range(len(Bars)):
             T = m.get_T2(Bars[n])
-            T[T**2<10**(-8)] = 0 #Erro de aproximação
+            T[np.isclose(T,0)] = 0 #Erro de aproximação
             
             Ke_p = np.matmul(np.matmul(np.matrix.transpose(T),m.get_Ke_t(Bars[n])),T)
 
@@ -35,7 +35,7 @@ class Global:
                     temp[2*(Bars[n].node2)-number_degrees_of_motion+i,2*(Bars[n].node2)-number_degrees_of_motion+j] = Ke_p[i+number_degrees_of_motion,j+number_degrees_of_motion]
             
             Ke_global += temp
-            Ke_global[Ke_global**2<10**(-8)] = 0 #Erro de aproximação
+            Ke_global[np.isclose(Ke_global,0)] = 0 #Erro de aproximação
 
             temp = np.zeros([number_degrees_of_motion*number_of_nodes,number_degrees_of_motion*number_of_nodes]) #Resetting
 
@@ -46,9 +46,10 @@ class Global:
         temp = np.zeros([number_degrees_of_motion*number_of_nodes,number_degrees_of_motion*number_of_nodes]) #Preallocating
         Me_global = np.copy(temp)
         
+        #Iniciar a T fora para o emilio do mal nao relcamar de eficiente e custo
         for n in range(len(Bars)):
             T = m.get_T2(Bars[n])
-            T[T**2<10**(-8)] = 0 #Erro de aproximação
+            T[np.isclose(T,0)] = 0 #Erro de aproximação
             
             Me_p = np.matmul(np.matmul(np.matrix.transpose(T),m.get_Me_t(Bars[n])),T)
 
@@ -61,7 +62,8 @@ class Global:
                     temp[2*(Bars[n].node2)-number_degrees_of_motion+i,2*(Bars[n].node2)-number_degrees_of_motion+j] = Me_p[i+number_degrees_of_motion,j+number_degrees_of_motion]
             
             Me_global += temp
-            Me_global[Me_global**2<10**(-8)] = 0 #Erro de aproximação #Me is close
+            Me_global[np.isclose(Me_global,0)] = 0
+            #Me_global[Me_global**2<10**(-8)] = 0 #Erro de aproximação #Me is close
 
             temp = np.zeros([number_degrees_of_motion*number_of_nodes,number_degrees_of_motion*number_of_nodes]) #Resetting
         

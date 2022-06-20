@@ -21,8 +21,10 @@ def analize(Global_Matrix): #Se preciso, testar se Global_Matrix is type global 
         #Pelo visto não é a matriz global que se utiliza, e sim a matriz reduzida aaaaa
         [auto_valores, auto_vetores] = np.linalg.eig(np.linalg.inv(Global_Matrix.Me_g_reduzida)@Global_Matrix.Ke_g_reduzida)
         
+        #Não tenho certeza se auto_vetores = modos_de_vibrar rever aula
         ########## Consertar modos_de_vibrar ########### 
         modos_de_vibrar = auto_vetores
+        modos_de_vibrar[np.isclose(modos_de_vibrar,0)] = 0
         omega = np.sqrt(auto_valores)
         omega_hertz = omega/(2*np.pi)
 
