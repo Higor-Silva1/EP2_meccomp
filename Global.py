@@ -13,6 +13,7 @@ class Global:
         self.C = m.set_C()
         self.Ke_g_reduzida = Global.get_Ke_global_reduzida(self)
         self.Me_g_reduzida = Global.get_Me_global_reduzida(self)
+        self.F = m.set_F()
     
     
     #Este eu faço pouca ideia mas tenho uma pequena lógica
@@ -24,7 +25,7 @@ class Global:
             T = m.get_T2(Bars[n])
             T[np.isclose(T,0)] = 0 #Erro de aproximação
             
-            Ke_p = np.matmul(np.matmul(np.matrix.transpose(T),m.get_Ke_t(Bars[n])),T)
+            Ke_p = np.matmul(np.matmul(np.matrix.transpose(T),m.get_Ke_v(Bars[n])),T)
 
             for i in range(2):
                 for j in range(2):
@@ -51,7 +52,7 @@ class Global:
             T = m.get_T2(Bars[n])
             T[np.isclose(T,0)] = 0 #Erro de aproximação
             
-            Me_p = np.matmul(np.matmul(np.matrix.transpose(T),m.get_Me_t(Bars[n])),T)
+            Me_p = np.matmul(np.matmul(np.matrix.transpose(T),m.get_Me_v(Bars[n])),T)
 
             for i in range(2):
                 for j in range(2):

@@ -94,3 +94,18 @@ def set_C():
         
     C = np.array(C)
     return C
+
+def set_F():
+    print("Qual o vetor de esforços distribuidos aplicadas ao sistema? \n")
+    print("Indique o vetor com os elementos separados por espaço, lembrando da ordem: u_1 v_1 phi_1 u_2 ...\n")
+    temp = input()
+    temp = temp.split()
+    F = []
+    for i in range(len(temp)):
+        F.append(float(temp[i]))
+        
+    F = np.array(F)
+    return F
+
+def set_Cm():
+    pass

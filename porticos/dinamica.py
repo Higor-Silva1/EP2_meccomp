@@ -1,3 +1,4 @@
+from tkinter import Y
 import numpy as np
 from Bar import Bar
 from Global import Global
@@ -5,6 +6,7 @@ from Global import Global
 #numpy.linalg.eig() para obter os autovelores e autovetores em análise modal
 #Lembrar que os autovalores serão w^2 e não w em si
 
+#Criar uma classe chamada analise para guardar os resultados?
 def analize(Global_Matrix): #Se preciso, testar se Global_Matrix is type global e avisar se não for
     print("Qual o tipo de análise deve ser realizada?\n")
     print("Digite 1 para Análise Modal sem Amortecimento\n")
@@ -15,11 +17,12 @@ def analize(Global_Matrix): #Se preciso, testar se Global_Matrix is type global 
 
     #if mode == 0: por favor, insira um modo de análise (pedir input novamente)
 
+    K_estrela = np.linalg.inv(Global_Matrix.Me_g_reduzida)@Global_Matrix.Ke_g_reduzida #Definindo matriz que será usada ao longo dos modos 1 e 2
     #Adicionar simplificações nos modos possíveis
     if mode == 1:
         print("Realizando Análise Modal sem Amortecimento \n \n")
         #Pelo visto não é a matriz global que se utiliza, e sim a matriz reduzida aaaaa
-        [auto_valores, auto_vetores] = np.linalg.eig(np.linalg.inv(Global_Matrix.Me_g_reduzida)@Global_Matrix.Ke_g_reduzida)
+        [auto_valores, auto_vetores] = np.linalg.eig(K_estrela)
         
         #Não tenho certeza se auto_vetores = modos_de_vibrar rever aula
         ########## Consertar modos_de_vibrar ########### 
@@ -35,14 +38,20 @@ def analize(Global_Matrix): #Se preciso, testar se Global_Matrix is type global 
         print("Os modos de vibrar são: \n")
         for q in range(len(omega)):
             print("Modo",q+1,"=",np.matrix.view(modos_de_vibrar[q]),"\n")
-    
+        return omega, modos_de_vibrar #Não se devo colocar pos o usuário talvez queira mais de uma análise
+
     if mode == 2:
         print("Realizando Análise Harmônica sem Amortecimento \n \n")
-        print("Escolha o tamnho do passo da frequência: \n")
-        h = float(input())
+        print("Escolha em quantas partes iguais o w será dividido: \n")
+        h = int(input("h precisa ser maior que 1: "))
+        Y = np.zeros([len(K_estrela), h])
         print("Escolha o a frequência final (assumindo incial == 0): \n")
         w_f = float(input())
 
-        #for i in range((w_f))
+        for i in range(h):
+            Y[:,i] = np.linalg.inv(K_estrela-(w_f/(h-1))**2*i*np.eye(len(K_estrela),len(K_estrela)))@(Global_Matrix.F+Global_Matrix.C) #(w_f/h)*i passo atual
+        
+        print("\n Y = ",np.matrix.view(Y))
+        return Y
 
 
