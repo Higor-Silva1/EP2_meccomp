@@ -19,7 +19,9 @@ def analize(Global_Matrix): #Se preciso, testar se Global_Matrix is type global 
     if mode == 1:
         print("Realizando Análise Modal sem Amortecimento \n \n")
         #Pelo visto não é a matriz global que se utiliza, e sim a matriz reduzida aaaaa
-        [auto_valores, auto_vetores] = np.linalg.eig(np.linalg.inv(Global_Matrix.Me_g)@Global_Matrix.Ke_g)
+        [auto_valores, auto_vetores] = np.linalg.eig(np.linalg.inv(Global_Matrix.Me_g_reduzida)@Global_Matrix.Ke_g_reduzida)
+        
+        ########## Consertar modos_de_vibrar ########### 
         modos_de_vibrar = auto_vetores
         omega = np.sqrt(auto_valores)
         omega_hertz = omega/(2*np.pi)

@@ -81,3 +81,16 @@ def get_T2(Bar):
           [                 0,                 0,-np.sin(Bar.theta), np.cos(Bar.theta)]])
          
     return T
+
+
+def set_C():
+    print("Qual o vetor de condições de contorno do sistema? \n")
+    print("Indique o vetor com os elementos separados por espaço, lembrando da ordem: u_1 v_1 phi_1 u_2 ...\n")
+    temp = input()
+    temp = temp.split()
+    C = []
+    for i in range(len(temp)):
+        C.append(float(temp[i]))
+        
+    C = np.array(C)
+    return C

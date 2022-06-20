@@ -10,6 +10,9 @@ class Global:
         pass
         self.Ke_g = Global.get_Ke_global(self,Bars,number_degrees_of_motion,number_of_nodes)
         self.Me_g = Global.get_Me_global(self,Bars,number_degrees_of_motion,number_of_nodes)
+        self.C = m.set_C()
+        self.Ke_g_reduzida = Global.get_Ke_global_reduzida(self)
+        self.Me_g_reduzida = Global.get_Me_global_reduzida(self)
     
     
     #Este eu faço pouca ideia mas tenho uma pequena lógica
@@ -21,7 +24,7 @@ class Global:
             T = m.get_T2(Bars[n])
             T[T**2<10**(-8)] = 0 #Erro de aproximação
             
-            Ke_p = np.matmul(np.matmul(np.matrix.transpose(T),m.get_Ke_v(Bars[n])),T)
+            Ke_p = np.matmul(np.matmul(np.matrix.transpose(T),m.get_Ke_t(Bars[n])),T)
 
             for i in range(2):
                 for j in range(2):
@@ -47,7 +50,7 @@ class Global:
             T = m.get_T2(Bars[n])
             T[T**2<10**(-8)] = 0 #Erro de aproximação
             
-            Me_p = np.matmul(np.matmul(np.matrix.transpose(T),m.get_Me_v(Bars[n])),T)
+            Me_p = np.matmul(np.matmul(np.matrix.transpose(T),m.get_Me_t(Bars[n])),T)
 
             for i in range(2):
                 for j in range(2):
@@ -58,7 +61,7 @@ class Global:
                     temp[2*(Bars[n].node2)-number_degrees_of_motion+i,2*(Bars[n].node2)-number_degrees_of_motion+j] = Me_p[i+number_degrees_of_motion,j+number_degrees_of_motion]
             
             Me_global += temp
-            Me_global[Me_global**2<10**(-8)] = 0 #Erro de aproximação
+            Me_global[Me_global**2<10**(-8)] = 0 #Erro de aproximação #Me is close
 
             temp = np.zeros([number_degrees_of_motion*number_of_nodes,number_degrees_of_motion*number_of_nodes]) #Resetting
         
@@ -66,8 +69,31 @@ class Global:
         return Me_global
 
 
-    # def get_Ke_global_reduzida(self):
-    #     print("Quais são as restrições ao movimento presentes no sistema? \n")
-    #     print("Coloque 1 (restrito) e 0 (não restrito) separados por espaço, lembrando da ordem: u1 v1 phi1 u2 ...")
-    #     temp = input()
-    #     restrictions = temp.split()
+    def get_Ke_global_reduzida(self):
+        Ke_global_reduzida = np.copy(self.Ke_g)
+
+        index_zeros = np.where(self.C==0)[0] #Find where are all the zeros in the contour conditions
+
+        for i in index_zeros:
+
+            Ke_global_reduzida[:,i] = 0
+            Ke_global_reduzida[i,:] = 0
+
+            Ke_global_reduzida[i,i] = 1
+        
+        return Ke_global_reduzida
+    
+    def get_Me_global_reduzida(self):
+        Me_global_reduzida = np.copy(self.Me_g)
+
+        index_zeros = np.where(self.C==0)[0] #Find where are all the zeros in the contour conditions
+
+        for i in index_zeros:
+
+            Me_global_reduzida[:,i] = 0
+            Me_global_reduzida[i,:] = 0
+
+            Me_global_reduzida[i,i] = 1
+        
+        return Me_global_reduzida
+        
