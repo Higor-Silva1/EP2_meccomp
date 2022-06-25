@@ -73,7 +73,6 @@ def get_T3(Bar):
          
     return T
 
-
 def get_T2(Bar):
     T = np.array([[ np.cos(Bar.theta), np.sin(Bar.theta), 0,                 0        ],
           [-np.sin(Bar.theta), np.cos(Bar.theta), 0,                 0                ],

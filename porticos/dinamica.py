@@ -115,5 +115,15 @@ class analise():
 
     #Vou pular a análise harmônica com amortecimento por enquanto
 
-    def transiente(self):
-        pass
+    def transiente(self,passo=0,gama=0,beta=0):
+        if passo == 0:
+            print("Indique o passo a ser aplicado: ")
+            passo = float(input())
+        if gama == 0:
+            print("Indique o gama a ser aplicado: ")
+            gama = float(input())
+        if beta == 0:
+            print("Indique o beta a ser aplicado: ")
+            beta = float(input())
+        
+        #Estou pensando em escrever a força como um vetor, mas como automatizar isso? atribuir uma função?
