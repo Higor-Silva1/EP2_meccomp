@@ -63,22 +63,22 @@ from porticos.dinamica import analise
 
 ######## Questão 16 ################
 
-# E = 100; A = 1; I = 1/12; L = 1; q = 2; P = 10
+E = 100; A = 1; I = 1/12; L = 1; q = 2; P = 10
 
-# Bar1 = Bar(E,A,L,0,I,1,2,0)
-# Bar2 = Bar(E,A,L,0,I,2,3,0)
-# Bars = [Bar1,Bar2]
+Bar1 = Bar(E,A,L,0,I,1,2,0)
+Bar2 = Bar(E,A,L,0,I,2,3,0)
+Bars = [Bar1,Bar2]
 
 ####O que colocar quando eu não tiver a condição de contorno no ponto??? Preciso rever isso no código
 ####C != de condição de contorno, ele é o vetor final já aplicado as condiçoes de contorno, a matriz reduzida deve usar algo booleano
 ####Será que é preciso (e até possível?) fazer uma C reduzida ou melhor já adicionar no código?
 
 
-# C = [0,0,0,0,P,0] #Matriz C já reduzida
-# Contorno = [0,0,1,1,1,0]
-# F = 2/12*np.array([6,1,12,0,6,-1])
+C = [0,0,0,0,P,0] #Matriz C já reduzida
+Contorno = [0,0,1,1,1,0]
+F = 2/12*np.array([6,1,12,0,6,-1])
 
-# G = Global(Bars,2,3,Contorno,C,F)
+G = Global(Bars,2,3,Contorno,C,F)
 
 
 ###################################
@@ -100,9 +100,9 @@ from porticos.dinamica import analise
 
 
 ####################################
-# resultado = analise(G)
+resultado = analise(G)
 
-# print(np.matrix.view(resultado.harmonica()))
+print(np.matrix.view(resultado.harmonica()))
 
 
 
