@@ -22,6 +22,10 @@ Ec = 4; Ac = 1; phoc = 1; Ic = 1
 
 Er = 4; Ar = 1; phor = 1; Ir = 1
 
+###### Montar o sistema ######
+
+
+
 ###### Resolver o sistema ######
 
 

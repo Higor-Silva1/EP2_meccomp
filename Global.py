@@ -21,16 +21,16 @@ class Global:
         self.F_reduzida = Global.get_F_reduzida(self)
     
     
-    #Este eu faço pouca ideia mas tenho uma pequena lógica
+    
     def get_Ke_global(self,Bars,number_degrees_of_motion,number_of_nodes): #Bars is a list of Bar objects
         temp = np.zeros([number_degrees_of_motion*number_of_nodes,number_degrees_of_motion*number_of_nodes]) #Preallocating
         Ke_global = np.copy(temp)
         
         for n in range(len(Bars)):
-            T = m.get_T2(Bars[n])
+            T = m.get_T3(Bars[n])
             T[np.isclose(T,0)] = 0 #Erro de aproximação
             
-            Ke_p = np.matmul(np.matmul(np.matrix.transpose(T),m.get_Ke_v(Bars[n])),T)
+            Ke_p = np.matmul(np.matmul(np.matrix.transpose(T),m.get_Ke_t(Bars[n])),T)
 
             for i in range(2):
                 for j in range(2):
@@ -54,10 +54,10 @@ class Global:
         
         #Iniciar a T fora para o emilio do mal nao relcamar de eficiente e custo
         for n in range(len(Bars)):
-            T = m.get_T2(Bars[n])
+            T = m.get_T3(Bars[n])
             T[np.isclose(T,0)] = 0 #Erro de aproximação
             
-            Me_p = np.matmul(np.matmul(np.matrix.transpose(T),m.get_Me_v(Bars[n])),T)
+            Me_p = np.matmul(np.matmul(np.matrix.transpose(T),m.get_Me_t(Bars[n])),T)
 
             for i in range(2):
                 for j in range(2):
